@@ -1,0 +1,6 @@
+include ':member'
+include ':plugin_core'
+include ':login'
+include ':base'
+include ':app'
+rootProject.name = "artifactoryDemo"
