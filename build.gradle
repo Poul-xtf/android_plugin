@@ -3,14 +3,13 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            url 'http://localhost:8081/artifactory/android_local/'
-        }
+//        maven {
+//            url 'http://localhost:8081/artifactory/android_local/'
+//        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.1"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -20,9 +19,10 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url 'http://localhost:8081/artifactory/android_local/'
-        }
+        maven { url 'https://jitpack.io' }
+//        maven {
+//            url 'http://localhost:8081/artifactory/android_local/'
+//        }
     }
 }
 task clean(type: Delete) {

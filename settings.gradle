@@ -1,4 +1,3 @@
-include ':member'
 include ':plugin_core'
 include ':login'
 include ':base'

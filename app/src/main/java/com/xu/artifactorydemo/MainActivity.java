@@ -3,21 +3,20 @@ package com.xu.artifactorydemo;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
+
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 
 import com.xu.artifactorydemo.databinding.ActivityMainBinding;
-import com.xu.artifactorydemo.proxy_test.InvocationHandlerImpl;
-import com.xu.artifactorydemo.proxy_test.ProxyInterface;
-import com.xu.artifactorydemo.proxy_test.ProxyTest;
-import com.xu.plugin_core.LoadUtil;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import com.xu.plugin_core.LoadApkManager;
+import com.xu.plugin_core.event.MessEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,19 +27,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         newListBean = new MyBean("调用插件中的方法", "你好吗", "", "", "");
         dataBinding.setViewModel(newListBean);
-//        dataBinding.setVariable(BR.name, "");
         dataBinding.tvName.setOnClickListener(v -> getPluginMethod());
     }
 
     public void getPluginMethod() {
-        MyApplication.loadUtil.loadClass();
 //        getPluginClass();
-        jumpActivity();
+        try {
+            int i = Runtime.getRuntime().availableProcessors();
+            Log.e("最大线程数", i + "");
+            Runtime rt = Runtime.getRuntime();
+            long maxMemory = rt.maxMemory();
+            Log.e("maxMemory:", Long.toString(maxMemory / (1024 * 1024)));
+            MyApplication.resources = LoadApkManager.getLoadApkManager().loadApk("/sdcard/login-debug.apk");
+            jumpActivity();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    private void jumpActivity() {
+        //获取到插件的第一个activityName
+//        ActivityInfo[] activities =  MyApplication.loadUtil.getPackageArchiveInfo().activities;
+//        String activityName = activities[0].name;
+        try {
+            //跳转activity要做的事情
+            //1、AMS要检查目的地activity是否注册了清单
+            //2、AMS要通知activityThread来创建目的地的类然后去启动生命周期
+            Class<?> aClass = getClassLoader().loadClass("com.xu.login.LoginActivity");
+            startActivity(new Intent(this, aClass));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 //    private void getPluginClass() {
 //        try {
 //            Class<?> aClass = getClassLoader().loadClass("com.xu.login.Test");
@@ -61,19 +83,15 @@ public class MainActivity extends AppCompatActivity {
 //        newProxyInstance.getLog("我在mainActivity中调用了getLog");
 //    }
 
-    private void jumpActivity() {
-        //获取到插件的第一个activityName
-//        ActivityInfo[] activities =  MyApplication.loadUtil.getPackageArchiveInfo().activities;
-//        String activityName = activities[0].name;
-        try {
-            //跳转activity要做的事情
-            //1、AMS要检查目的地activity是否注册了清单
-            //2、AMS要通知activityThread来创建目的地的类然后去启动生命周期
-            Class<?> aClass = getClassLoader().loadClass("com.xu.login.LoginActivity");
-            startActivity(new Intent(this, aClass));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetMess(MessEvent messEvent) {
+        Log.e("xtf->", messEvent.type);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

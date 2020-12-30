@@ -6,7 +6,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.os.Build;
+import android.util.Log;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -23,7 +26,7 @@ import dalvik.system.PathClassLoader;
 @SuppressLint("StaticFieldLeak")
 public class LoadUtil {
     //    private final static String apkPath = "/sdcard/plugin.apk";
-    private final static String apkPath = "/sdcard/login-debug.apk";
+    private String apkPath = "";
     private static PackageInfo packageArchiveInfo;
     private static LoadUtil loadUtil;
     private static Context mContext;
@@ -31,14 +34,22 @@ public class LoadUtil {
     public static LoadUtil getInstance(Context context) {
         synchronized (LoadUtil.class) {
             if (loadUtil == null) {
-                mContext = context;
-                loadUtil = new LoadUtil();
+                try {
+                    mContext = context;
+                    loadUtil = new LoadUtil();
+                    HookUtil hookUtil = new HookUtil(context, ProxyActivity.class);
+                    hookUtil.hookStartActivity();
+                    hookUtil.hookLaunchActivity();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return loadUtil;
     }
 
     public void loadClass() {
+
         if (mContext == null) {
             return;
         }
@@ -57,11 +68,8 @@ public class LoadUtil {
             dexElements.setAccessible(true);
 
             Object dexElementValue = dexElements.get(pathListValue);
-
             //第二步：加载插件，获取插件类加载器中的dexElements
-            DexClassLoader dexClassLoader = new DexClassLoader(apkPath,
-                    mContext.getCacheDir().getAbsolutePath(),
-                    null, mContext.getClassLoader());
+            DexClassLoader dexClassLoader = new DexClassLoader(apkPath, mContext.getCacheDir().getAbsolutePath(), null, mContext.getClassLoader());
             //获取到插件的pathList
             Object pluginPathListValue = pathList.get(dexClassLoader);
             //获取插件中的dexElements
@@ -89,7 +97,8 @@ public class LoadUtil {
      *
      * @return
      */
-    public Resources loadPluginResource() {
+    public Resources loadPluginResource(String apkPath) {
+        this.apkPath = apkPath;
         Resources resources = null;
         try {
             //获取到插件的包信息类

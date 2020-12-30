@@ -2,31 +2,18 @@ package com.xu.artifactorydemo;
 
 import android.app.Application;
 import android.content.res.Resources;
-
-import com.xu.plugin_core.HookUtil;
-import com.xu.plugin_core.LoadUtil;
-import com.xu.plugin_core.ProxyActivity;
+import com.xu.plugin_core.LoadApkManager;
 
 /**
  * Created by xutengfei
  * on 2020/12/24
  */
 public class MyApplication extends Application {
-    private Resources resources;
-    public static LoadUtil loadUtil;
-
+    public static Resources resources;
     @Override
     public void onCreate() {
         super.onCreate();
-        HookUtil hookUtil = new HookUtil(this, ProxyActivity.class);
-        hookUtil.hookStartActivity();
-        try {
-            hookUtil.hookLaunchActivity();
-            loadUtil = LoadUtil.getInstance(this);
-            resources = loadUtil.loadPluginResource();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        LoadApkManager.instance(this);
     }
 
     @Override

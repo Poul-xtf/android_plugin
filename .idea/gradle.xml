@@ -15,7 +15,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/login" />
-            <option value="$PROJECT_DIR$/member" />
             <option value="$PROJECT_DIR$/plugin_core" />
           </set>
         </option>

@@ -15,14 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public abstract class BaseActivity extends AppCompatActivity {
     private View rootView;
 
-//    public ViewDataBinding dataBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (rootView == null) {
-//            dataBinding = DataBindingUtil.setContentView(this, getLayout());
-//        }
+
         initView(rootView);
         initData();
 

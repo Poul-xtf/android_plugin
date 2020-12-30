@@ -51,5 +51,10 @@
       <option name="name" value="maven" />
       <option name="url" value="http://localhost:8081/artifactory/android_local/com.xu.plugin_core/1.0/plugin_core-debug.aar" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://jitpack.io" />
+    </remote-repository>
   </component>
 </project>
