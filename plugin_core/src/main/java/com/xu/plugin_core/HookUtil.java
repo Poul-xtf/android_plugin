@@ -19,8 +19,8 @@ import java.util.List;
 /**
  * Created by xutengfei
  * on 2020/12/24
- * 让我们用Hook实现没有注册的activity也能被启动
- * 1、首先要反射到AMS的实例，然后创建动态代理对象
+ * Let us use Hook to realize that unregistered activity can also be started
+ * 1. First reflect to the AMS instance, and then create a dynamic proxy object
  */
 public class HookUtil {
     private Context context;
@@ -35,8 +35,7 @@ public class HookUtil {
 
     /**
      * HOOK AMS
-     * 得到AMS实例
-     * 然后生成AMS的代理对象
+     * 得到AMS实例,然后生成AMS的代理对象
      */
     public void hookStartActivity() {
         try {
@@ -52,7 +51,6 @@ public class HookUtil {
                 //获取到AMS
                 Object amsObject = mInstance.get(gDefaultValue);
                 //创建AMS的代理对象
-                //首先获取到它的接口的Class对象
                 Class<?> IActivityManagerClass = Class.forName("android.app.IActivityManager");
                 Object amsProxy = Proxy.newProxyInstance(HookUtil.class.getClassLoader(), new Class[]{IActivityManagerClass},
                         new StartActivityInVocationHandler(amsObject));
@@ -91,20 +89,13 @@ public class HookUtil {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            Log.e("xtf->1", method.getName());
-            for (int i = 0; i < args.length; i++) {
-                if (args[i] instanceof Intent) {
-                    Log.e("xtf->-------", args[i].toString());
-                }
-            }
+            Log.e("method.name:", method.getName());
             if (method.getName().equals("startActivity")) {
-                Log.e("xtf->", method.getName());
-                //将startActivity方法中传过来的意图取到
+                //获取startActivity方法中传过来的意图
                 int position = 0;
                 for (int i = 0; i < args.length; i++) {
                     if (args[i] instanceof Intent) {
                         position = i;
-                        Log.e("xtf->", "有Intent");
                     }
                 }
                 Intent oldIntent = (Intent) args[position];
@@ -127,25 +118,20 @@ public class HookUtil {
         sCurrentActivityThread.setAccessible(true);
         //获取到ActivityThread的实例
         Object activityThreadValue = sCurrentActivityThread.get(null);
-
         //获取到mH的成员变量
         Field mHField = activityThreadClass.getDeclaredField("mH");
         mHField.setAccessible(true);
         //获取到mH在ActivityThread中的变量
         Object mHValue = mHField.get(activityThreadValue);
-
         //获取到activityThread里面用来发送消息的Handler
         Class<?> handlerClass = Class.forName("android.os.Handler");
         //获取到Handler中用来处理消息的mCallBack变量
         Field mCallBackField = handlerClass.getDeclaredField("mCallback");
         mCallBackField.setAccessible(true);
-        //重新赋值
         mCallBackField.set(mHValue, new HandlerCallBack());
-
     }
 
     private class HandlerCallBack implements Handler.Callback {
-
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { //如果是9.0以上
@@ -169,7 +155,7 @@ public class HookUtil {
                 for (int i = 0; i < mActivityCallbacks.size(); i++) {
                     if (mActivityCallbacks.get(i).getClass().getName()
                             .equals("android.app.servertransaction.LaunchActivityItem")) {
-                        Log.d("!11", "捕捉到启动activity消息");
+                        Log.d("getActivity", "get到启动activity消息");
                         Object launchActivityItem = mActivityCallbacks.get(i);
                         Field mIntentField = launchActivityItem.getClass().getDeclaredField("mIntent");
                         mIntentField.setAccessible(true);

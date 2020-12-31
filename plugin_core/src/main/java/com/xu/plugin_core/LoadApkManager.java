@@ -38,7 +38,6 @@ public class LoadApkManager extends BaseLoadApkManager {
 
     public LoadApkManager IntentTo(String intent) {
         try {
-            //跳转activity要做的事情
             //1、AMS要检查目的地activity是否注册了清单
             //2、AMS要通知activityThread来创建目的地的类然后去启动生命周期
             Class<?> aClass = mContext.getClassLoader().loadClass(intent);

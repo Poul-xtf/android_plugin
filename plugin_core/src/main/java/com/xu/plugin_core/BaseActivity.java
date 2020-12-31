@@ -6,7 +6,7 @@ import android.content.res.Resources;
 /**
  * Created by xutengfei
  * on 2020/12/25
- * 插件是宿主的一部分
+ * Plug-in apk use
  */
 
 public class BaseActivity extends Activity {
