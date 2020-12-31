@@ -9,7 +9,7 @@ import com.xu.plugin_core.LoadApkManager;
  * on 2020/12/24
  */
 public class MyApplication extends Application {
-    public static Resources resources;
+    public static Resources myResources;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -18,6 +18,6 @@ public class MyApplication extends Application {
 
     @Override
     public Resources getResources() {
-        return resources == null ? super.getResources() : resources;
+        return myResources == null ? super.getResources() : myResources;
     }
 }
