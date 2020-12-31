@@ -1,7 +1,10 @@
 package com.xu.plugin_core;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+
+import java.lang.reflect.Field;
 
 
 /**
@@ -10,6 +13,7 @@ import android.content.res.Resources;
  */
 public class LoadApkManager extends BaseLoadApkManager {
     private static LoadApkManager loadApkManager;
+    private static Context mContext;
     private ILoadBack iLoadBack;
 
     private LoadApkManager(LoadUtil loadInstance) {
@@ -17,25 +21,44 @@ public class LoadApkManager extends BaseLoadApkManager {
         iLoadBack = loadInstance.getILoadBack();
     }
 
-    public static void instance(Context context) {
+    public static LoadApkManager instance(Context context) {
         synchronized (LoadApkManager.class) {
             if (loadApkManager == null) {
                 LoadUtil loadInstance = LoadUtil.getInstance(context);
                 loadApkManager = new LoadApkManager(loadInstance);
             }
         }
-    }
-
-    public static LoadApkManager getLoadApkManager() {
         return loadApkManager;
     }
 
-    public Resources loadApk(String apkPath) {
-        this.apkPath = apkPath;
-        resources = getResources();
-        iLoadBack.loadClass();
-        return resources;
+    public static LoadApkManager getLoadApkManager(Context context) {
+        mContext = context;
+        return loadApkManager;
     }
+
+    public LoadApkManager IntentTo(String intent) {
+        try {
+            //跳转activity要做的事情
+            //1、AMS要检查目的地activity是否注册了清单
+            //2、AMS要通知activityThread来创建目的地的类然后去启动生命周期
+            Class<?> aClass = mContext.getClassLoader().loadClass(intent);
+            mContext.startActivity(new Intent(mContext, aClass));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loadApkManager;
+    }
+
+    public LoadApkManager loadApk(Class<?> clazz, String apkPath) throws Exception {
+        this.apkPath = apkPath;
+        this.resources = getResources();
+        iLoadBack.loadClass();
+        Field resources = clazz.getDeclaredField("resources");
+        Object o = resources.get(null);
+        resources.set(o, this.resources);
+        return loadApkManager;
+    }
+
 
     @Override
     protected Resources getResources() {

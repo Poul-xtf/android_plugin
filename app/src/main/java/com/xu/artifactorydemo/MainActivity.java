@@ -17,7 +17,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 
-
 public class MainActivity extends AppCompatActivity {
 
     private MyBean newListBean;
@@ -44,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
             long maxMemory = rt.maxMemory();
             Log.e("maxMemory:", Long.toString(maxMemory / (1024 * 1024)));
 
-
-            MyApplication.resources = LoadApkManager.getLoadApkManager().loadApk("/sdcard/login-debug.apk");
-            jumpActivity();
+            LoadApkManager.getLoadApkManager(this)
+                    .loadApk(MyApplication.class, "/sdcard/login-debug.apk")
+                    .IntentTo("com.xu.login.LoginActivity");
         } catch (Exception e) {
             e.printStackTrace();
         }

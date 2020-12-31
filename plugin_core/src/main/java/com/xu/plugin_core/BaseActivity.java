@@ -13,6 +13,7 @@ public class BaseActivity extends Activity {
 
     @Override
     public Resources getResources() {
-        return getApplication() != null && getApplication().getResources() != null ? getApplication().getResources() : super.getResources();
+        return getApplication() != null && getApplication().getResources() != null
+                ? getApplication().getResources() : super.getResources();
     }
 }
