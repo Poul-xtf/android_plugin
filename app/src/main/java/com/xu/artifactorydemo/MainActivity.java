@@ -10,7 +10,9 @@ import android.util.Log;
 
 import com.xu.artifactorydemo.databinding.ActivityMainBinding;
 
+import com.xu.plugin_core.HookUtil;
 import com.xu.plugin_core.LoadApkManager;
+import com.xu.plugin_core.ProxyActivity;
 import com.xu.plugin_core.event.MessEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         newListBean = new MyBean("调用插件中的方法", "你好吗", "", "", "");
         dataBinding.setViewModel(newListBean);
+
         dataBinding.tvName.setOnClickListener(v -> getPluginMethod());
+
     }
 
     public void getPluginMethod() {
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             Runtime rt = Runtime.getRuntime();
             long maxMemory = rt.maxMemory();
             Log.e("maxMemory:", Long.toString(maxMemory / (1024 * 1024)));
+
+
             MyApplication.resources = LoadApkManager.getLoadApkManager().loadApk("/sdcard/login-debug.apk");
             jumpActivity();
         } catch (Exception e) {

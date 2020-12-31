@@ -6,10 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.os.Build;
-import android.util.Log;
-
-import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -24,7 +20,7 @@ import dalvik.system.PathClassLoader;
  * 1、根据存储路径去加载插件
  */
 @SuppressLint("StaticFieldLeak")
-public class LoadUtil {
+public class LoadUtil implements ILoadBack{
     //    private final static String apkPath = "/sdcard/plugin.apk";
     private String apkPath = "";
     private static PackageInfo packageArchiveInfo;
@@ -91,13 +87,49 @@ public class LoadUtil {
             e.printStackTrace();
         }
     }
+//
+//    /**
+//     * 创建一个管理对象，可以获取到插件的资源对象
+//     *
+//     * @return
+//     */
+//    public Resources loadPluginResource(String apkPath) {
+//        this.apkPath = apkPath;
+//        Resources resources = null;
+//        try {
+//            //获取到插件的包信息类
+//            //获取到包管理器
+//            PackageManager packageManager = mContext.getPackageManager();
+//            packageArchiveInfo = packageManager.getPackageArchiveInfo(apkPath, PackageManager.GET_ACTIVITIES);
+//            AssetManager assetManager = AssetManager.class.newInstance();
+//            Method addAssetPath = assetManager.getClass().getDeclaredMethod("addAssetPath", String.class);
+//            addAssetPath.setAccessible(true);
+//            addAssetPath.invoke(assetManager, apkPath);
+//            resources = new Resources(assetManager, mContext.getResources().getDisplayMetrics(),
+//                    mContext.getResources().getConfiguration());
+//            return resources;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     /**
-     * 创建一个管理对象，可以获取到插件的资源对象
+     * 获取到包信息类
      *
      * @return
      */
-    public Resources loadPluginResource(String apkPath) {
+    public PackageInfo getPackageArchiveInfo() {
+        return packageArchiveInfo;
+    }
+
+
+    /**
+     * 创建一个管理对象，可以获取到插件的资源对象
+     * @return
+     */
+    @Override
+    public Resources loadResources(String apkPath) {
         this.apkPath = apkPath;
         Resources resources = null;
         try {
@@ -118,12 +150,7 @@ public class LoadUtil {
         return null;
     }
 
-    /**
-     * 获取到包信息类
-     *
-     * @return
-     */
-    public PackageInfo getPackageArchiveInfo() {
-        return packageArchiveInfo;
+    public ILoadBack getILoadBack() {
+        return this;
     }
 }

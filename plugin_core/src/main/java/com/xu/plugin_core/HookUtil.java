@@ -1,14 +1,11 @@
 package com.xu.plugin_core;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -94,6 +91,12 @@ public class HookUtil {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            Log.e("xtf->1", method.getName());
+            for (int i = 0; i < args.length; i++) {
+                if (args[i] instanceof Intent) {
+                    Log.e("xtf->-------", args[i].toString());
+                }
+            }
             if (method.getName().equals("startActivity")) {
                 Log.e("xtf->", method.getName());
                 //将startActivity方法中传过来的意图取到

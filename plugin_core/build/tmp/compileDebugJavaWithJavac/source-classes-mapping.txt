@@ -1,9 +1,11 @@
-com/xu/plugin_core/BuildConfig.java
- com.xu.plugin_core.BuildConfig
 com/xu/plugin_core/LoadUtil.java
  com.xu.plugin_core.LoadUtil
+com/xu/plugin_core/BaseActivity.java
+ com.xu.plugin_core.BaseActivity
 com/xu/plugin_core/ProxyActivity.java
  com.xu.plugin_core.ProxyActivity
+com/xu/plugin_core/ILoadBack.java
+ com.xu.plugin_core.ILoadBack
 com/xu/plugin_core/event/MessEvent.java
  com.xu.plugin_core.event.MessEvent
 com/xu/plugin_core/HookUtil.java
@@ -11,11 +13,9 @@ com/xu/plugin_core/HookUtil.java
  com.xu.plugin_core.HookUtil$1
  com.xu.plugin_core.HookUtil$HandlerCallBack
  com.xu.plugin_core.HookUtil$StartActivityInVocationHandler
+com/xu/plugin_core/BuildConfig.java
+ com.xu.plugin_core.BuildConfig
 com/xu/plugin_core/LoadApkManager.java
  com.xu.plugin_core.LoadApkManager
-com/xu/plugin_core/ILoadBack.java
- com.xu.plugin_core.ILoadBack
 com/xu/plugin_core/BaseLoadApkManager.java
  com.xu.plugin_core.BaseLoadApkManager
-com/xu/plugin_core/BaseActivity.java
- com.xu.plugin_core.BaseActivity

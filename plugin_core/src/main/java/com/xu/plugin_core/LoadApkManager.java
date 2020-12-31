@@ -10,9 +10,11 @@ import android.content.res.Resources;
  */
 public class LoadApkManager extends BaseLoadApkManager {
     private static LoadApkManager loadApkManager;
+    private ILoadBack iLoadBack;
 
     private LoadApkManager(LoadUtil loadInstance) {
         super(loadInstance);
+        iLoadBack = loadInstance.getILoadBack();
     }
 
     public static void instance(Context context) {
@@ -36,7 +38,7 @@ public class LoadApkManager extends BaseLoadApkManager {
     }
 
     @Override
-    protected Resources getResources(){
+    protected Resources getResources() {
         if (apkPath == null) {
             try {
                 throw new Exception("apkPath is null");
@@ -44,6 +46,7 @@ public class LoadApkManager extends BaseLoadApkManager {
                 e.printStackTrace();
             }
         }
-        return loadInstance.loadPluginResource(apkPath);
+        return (Resources) iLoadBack.loadResources(apkPath);
     }
+
 }
