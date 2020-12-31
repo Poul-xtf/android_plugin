@@ -9,10 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.xu.artifactorydemo.databinding.ActivityMainBinding;
-
-import com.xu.plugin_core.HookUtil;
 import com.xu.plugin_core.LoadApkManager;
-import com.xu.plugin_core.ProxyActivity;
 import com.xu.plugin_core.event.MessEvent;
 
 import org.greenrobot.eventbus.EventBus;

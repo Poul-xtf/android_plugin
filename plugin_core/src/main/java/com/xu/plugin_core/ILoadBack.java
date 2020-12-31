@@ -6,4 +6,5 @@ package com.xu.plugin_core;
  */
 public interface ILoadBack<T> {
     T loadResources(String apkPath);
+    void loadClass();
 }

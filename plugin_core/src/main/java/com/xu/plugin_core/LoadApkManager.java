@@ -33,7 +33,7 @@ public class LoadApkManager extends BaseLoadApkManager {
     public Resources loadApk(String apkPath) {
         this.apkPath = apkPath;
         resources = getResources();
-        loadInstance.loadClass();
+        iLoadBack.loadClass();
         return resources;
     }
 
