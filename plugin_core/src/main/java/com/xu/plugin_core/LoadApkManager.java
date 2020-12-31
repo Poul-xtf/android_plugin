@@ -54,6 +54,7 @@ public class LoadApkManager extends BaseLoadApkManager {
         this.resources = getResources();
         iLoadBack.loadClass();
         Field resources = clazz.getDeclaredField("myResources");
+        resources.setAccessible(true);
         Object o = resources.get(null);
         resources.set(o, this.resources);
         return loadApkManager;
