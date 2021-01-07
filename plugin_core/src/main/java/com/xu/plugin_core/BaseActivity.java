@@ -3,13 +3,15 @@ package com.xu.plugin_core;
 import android.app.Activity;
 import android.content.res.Resources;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 /**
  * Created by xutengfei
  * on 2020/12/25
  * Plug-in apk use
  */
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
 
     @Override
     public Resources getResources() {

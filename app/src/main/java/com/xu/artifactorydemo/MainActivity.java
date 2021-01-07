@@ -31,7 +31,13 @@ public class MainActivity extends AppCompatActivity {
         dataBinding.setViewModel(newListBean);
 
         dataBinding.tvName.setOnClickListener(v -> getPluginMethod());
+        dataBinding.tvTitle.setOnClickListener(v->start());
 
+    }
+
+    private void start() {
+//        Intent intent = new Intent(this, TestActivity.class);
+//        startActivity(intent);
     }
 
     public void getPluginMethod() {

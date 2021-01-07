@@ -1,0 +1,5 @@
+R_DEF: Internal format may change without notice
+local
+id tv_name
+layout activity_proxy
+layout activity_test
