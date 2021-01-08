@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.xu.plugin_core.BaseActivity;
+import com.xu.plugin_core.BasePluginActivity;
 import com.xu.plugin_core.event.MessEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BasePluginActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

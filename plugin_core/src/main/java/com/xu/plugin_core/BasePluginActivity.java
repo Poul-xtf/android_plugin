@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * Plug-in apk use
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BasePluginActivity extends AppCompatActivity {
 
     @Override
     public Resources getResources() {

@@ -1,7 +1,7 @@
 com/xu/plugin_core/LoadUtil.java
  com.xu.plugin_core.LoadUtil
-com/xu/plugin_core/BaseActivity.java
- com.xu.plugin_core.BaseActivity
+com/xu/plugin_core/BasePluginActivity.java
+ com.xu.plugin_core.BasePluginActivity
 com/xu/plugin_core/ProxyActivity.java
  com.xu.plugin_core.ProxyActivity
 com/xu/plugin_core/ILoadBack.java
