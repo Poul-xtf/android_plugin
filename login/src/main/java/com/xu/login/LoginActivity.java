@@ -4,6 +4,7 @@ package com.xu.login;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.xu.plugin_core.BasePluginActivity;
 import com.xu.plugin_core.event.MessEvent;
@@ -17,6 +18,7 @@ public class LoginActivity extends BasePluginActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_login);
     }

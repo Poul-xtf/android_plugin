@@ -1,6 +1,5 @@
 package com.xu.plugin_core;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -11,7 +10,7 @@ import androidx.annotation.Nullable;
  * Created by xutengfei
  * on 2020/12/25
  */
-public class ProxyActivity extends Activity {
+public class ProxyActivity extends BasePluginActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
